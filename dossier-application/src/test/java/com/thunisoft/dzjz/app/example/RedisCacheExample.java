@@ -214,25 +214,4 @@ public class RedisCacheExample {
         System.err.println(mapOps.keys()); // [key2, key4, key3]
     }
 
-    @Test
-    public void redisListSetValue() {
-        System.err.println("redis query start");
-        BoundListOperations<String, String> listOpers = redisTemplate.boundListOps(OBJECT_KEY);
-//        for (int i = 0; i < 10; i++) {
-//            String addStr = "add_value_" + new Random().nextInt(1000);
-//            System.out.println("add value " + addStr);
-//            listOpers.rightPush(addStr);
-//        }
-        // 设置过期时间
-//        listOpers.getExpire(); // 返回过期时间
-//        redisTemplate.delete(OBJECT_KEY);
-        List<String> result = listOpers.range(0, -1);
-        for (String item : result) {
-            System.err.println("get value " + item);
-        }
-        System.err.println("redis query end");
-    }
-
-
-
 }
