@@ -38,7 +38,7 @@ public class ThreadExampleController {
     }
 
     @GetMapping(path = "/completionService")
-    public String completionServiceExample() throws InterruptedException, ExecutionException {
+    public String completionServiceExample() throws InterruptedException, ExecutionException, TimeoutException {
         log.info("completionServiceExample controller start");
         threadExampleService.completionServiceExample();
         log.info("completionServiceExample controller end");

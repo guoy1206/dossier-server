@@ -38,18 +38,19 @@ public class ThreadExampleService {
     @Async(ThreadPoolConfig.ASYNC_EXECUTOR_NAME)
     public void methodExample() throws InterruptedException {
         log.info("methodExample start");
-        Thread.sleep(2000L);
+        TimeUnit.SECONDS.sleep(1);
         log.info("methodExample end");
     }
 
     // completionService 演示
-    public void completionServiceExample() throws InterruptedException, ExecutionException {
+    public void completionServiceExample() throws InterruptedException, ExecutionException, TimeoutException {
         log.info("completionServiceExample start");
+        long starTime = System.currentTimeMillis();
         Random random = new Random();
         CompletionService<String> service = new ExecutorCompletionService<String>(asyncExecutor);
         for (int i = 0; i < COUNT; i++) {
             service.submit(() -> {
-                Thread.sleep(random.nextInt(1000));
+                Thread.sleep(2000L);
                 log.info(Thread.currentThread().getName() + "|完成任务");
                 return "data" + random.nextInt();
             });
@@ -59,6 +60,8 @@ public class ThreadExampleService {
             String result = take.get(); // 这一行在这里不会阻塞，引入放入队列中的都是已经完成的任务
             log.info("获取到结果：" + result);
         }
+        long excTime = System.currentTimeMillis() - starTime;
+        log.info("处理完成时间: {" + excTime + "} ms");
         log.info("completionServiceExample end");
     }
 
@@ -165,7 +168,7 @@ public class ThreadExampleService {
             asyncExecutor.submit(runnable);
         }
         countDownLatch.await();
-        asyncExecutor.shutdown();
+//        asyncExecutor.shutdown();
         long excTime = System.currentTimeMillis() - starTime;
         log.info("处理完成时间: {" + excTime + "} ms");
         log.info("countDownLatchExample end");
