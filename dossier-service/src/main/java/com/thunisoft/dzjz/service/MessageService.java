@@ -8,6 +8,7 @@ import com.thunisoft.dzjz.enums.ProducerTopicEnum;
 import com.thunisoft.dzjz.enums.ResultCodeEnum;
 import com.thunisoft.dzjz.event.ProducerMessageEvent;
 import lombok.extern.slf4j.Slf4j;
+import org.omg.CORBA.INTERNAL;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -71,7 +72,7 @@ public class MessageService {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                     log.error("转换PDF文件错误");
-                    throw new ServiceException(ResultCodeEnum.MSG_NOT_READABLE,String.format("材料%s转换错误", materialId));
+                    throw new ServiceException(ResultCodeEnum.MSG_NOT_READABLE, String.format("材料%s转换错误", materialId));
                 }
 
             }
@@ -80,7 +81,7 @@ public class MessageService {
     }
 
     // 异常demo演示
-    public void exceptionDemo(Integer type){
+    public void exceptionDemo(Integer type) {
         String userId = "007";
         switch (type) {
             case 1:
@@ -98,6 +99,21 @@ public class MessageService {
             case 4:
             default:
         }
+    }
+
+    // 增加消息
+    public void createInfo(String name, Integer age) throws InterruptedException {
+        log.info("MessageService create message " + Thread.currentThread().getName() + "|完成任务");
+        // 模拟耗时1s
+        Thread.sleep(1000L);
+    }
+
+    // 模拟查询数据
+    public String queryInfo(String name) throws InterruptedException {
+        log.info("MessageService query message " + Thread.currentThread().getName() + "|完成任务");
+        // 模拟耗时1.5s
+        Thread.sleep(1500L);
+        return name;
     }
 
 }
